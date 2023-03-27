@@ -45,3 +45,37 @@ function playRound() {
         return "Player Wins"
     }
 }
+
+function game(){
+    const rounds = prompt("How Many Rounds?")
+    let playerWins = 0
+    let computerWins = 0
+
+    for (let i=0; i<rounds; i++){
+        roundResult = playRound()
+        if (roundResult == "Tie"){
+            console.log(roundResult)
+            continue
+        }
+
+        if (roundResult == "Player Wins"){
+            console.log(roundResult)
+            playerWins++
+        }
+
+        if (roundResult == "Computer Wins"){
+            console.log(roundResult)
+            computerWins++
+        }
+    }
+
+    if (playerWins>computerWins){
+        winText = "Player Wins Game"
+    }else if (playerWins==computerWins){
+        winText="Game is a Tie"
+    }else{
+        winText="Computer Wins Game"
+    }
+
+    return `Score is Player:${playerWins} to Computer: ${computerWins}. ${winText}.`
+}
