@@ -1,22 +1,34 @@
 let choices = ['rock', 'paper', 'scissors']
 
+let playerWins = 0
+let computerWins = 0
+
+let resultText = document.querySelector('.result')
+
+let playerSelectionText = document.querySelector('#player-selection')
+let playerScoreText = document.querySelector('#player-score')
+
+let computerSelectionText = document.querySelector('#computer-selection')
+let computerScoreText = document.querySelector('#computer-score')
+
+buttons = document.querySelectorAll('.button')
+buttons.forEach(button => button.addEventListener('click', resultUpdate))
+
+
 function getComputerChoice(){
     const computerChoice = choices[Math.floor(Math.random() * choices.length)];
-    console.log(computerChoice)
     return computerChoice
 }
 
-function getPlayerChoice(){
-    const playerChoice = prompt("Rock, paper, or scissors?").toLowerCase();
+function getPlayerChoice(e){
+    const playerChoice = this.textContent.toLowerCase();
         if (choices.includes(playerChoice)){
             return playerChoice
         } else {console.log('invalid entry')}
 }
 
-function playRound() {
-    const playerChoice = getPlayerChoice()
-    const computerChoice = getComputerChoice()
-
+function playRound(playerChoice, computerChoice) {
+    
     if (playerChoice == computerChoice) {
         return "Tie"
     } 
@@ -46,36 +58,28 @@ function playRound() {
     }
 }
 
-function game(){
-    const rounds = prompt("How Many Rounds?")
-    let playerWins = 0
-    let computerWins = 0
+function resultUpdate(e){
+    const selection = this.textContent
+    const playerChoice = selection.toLowerCase()
+    const computerChoice = getComputerChoice()
 
-    for (let i=0; i<rounds; i++){
-        roundResult = playRound()
-        if (roundResult == "Tie"){
-            console.log(roundResult)
-            continue
-        }
+    computerSelectionText.textContent = `Computer Selection: ${computerChoice}`
+    playerSelectionText.textContent = `Player Selection: ${playerChoice}`
+    
+    
+    roundResult = playRound(playerChoice, computerChoice)
 
-        if (roundResult == "Player Wins"){
-            console.log(roundResult)
-            playerWins++
-        }
+    resultText.textContent = roundResult
 
-        if (roundResult == "Computer Wins"){
-            console.log(roundResult)
-            computerWins++
-        }
+    if (roundResult == "Player Wins"){
+        playerWins++
+        playerScoreText.textContent = `Player Score: ${playerWins}`
     }
 
-    if (playerWins>computerWins){
-        winText = "Player Wins Game"
-    }else if (playerWins==computerWins){
-        winText="Game is a Tie"
-    }else{
-        winText="Computer Wins Game"
-    }
-
-    return `Score is Player:${playerWins} to Computer: ${computerWins}. ${winText}.`
+    if (roundResult == "Computer Wins"){
+        computerWins++
+        computerScoreText.textContent = `Computer Score: ${computerWins}`
+    }       
+        
 }
+
